@@ -1,0 +1,96 @@
+.invitationLetter {
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+
+  .page {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    scroll-snap-align: start;
+    overflow: hidden;
+  }
+
+  .page1,.page5 {
+    // background-image: url("src/assets/bg.webp");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+
+    .logo {
+      margin: 0 auto 0;
+      margin-top: 32px;
+      width: fit-content;
+    }
+
+    .meeting-name {
+      margin: 0 auto 0;
+      margin-top: 10px;
+      width: fit-content;
+    }
+
+    .publicity-title1 {
+      width: fit-content;
+      position: absolute;
+      top: 160px;
+      right: 0;
+      font-size: 32px;
+    }
+    .publicity-title2 {
+      width: fit-content;
+      position: absolute;
+      top: 200px;
+      left: 0;
+      font-size: 32px;
+    }
+
+    .page-title {
+      width: fit-content;
+      position: absolute;
+      top: -45px;
+      left: 50%;
+      font-size: 32px;
+    }
+
+    .triangle {
+      width: fit-content;
+      position: absolute;
+      bottom: 18px;
+      left: 50%;
+      font-size: 32px;
+    }
+
+    .small-ball {
+      width: fit-content;
+      position: absolute;
+      bottom: 150px;
+      left: 0;
+      font-size: 32px;
+    }
+
+    .big-ball {
+      width: fit-content;
+      position: absolute;
+      bottom: 150px;
+      right: 0;
+      font-size: 32px;
+    }
+
+    .footer{
+      position: absolute;
+      bottom: 32px;
+      width: 100%;
+      line-height: 20px;
+      text-align: center;
+    }
+  }
+
+  .page5{
+    .slogan{
+      margin: 0 auto 0;
+      margin-top: 10px;
+      width: fit-content;
+
+    }
+  }
+}
