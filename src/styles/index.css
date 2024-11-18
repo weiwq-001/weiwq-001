@@ -1,0 +1,13 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body,
+#root,
+.app {
+  width: 100vw;
+  height: 100vh;
+  font-size: 14px; /* 默认字体大小 */
+  -webkit-text-size-adjust: 100%; /* 禁用文本缩放 */
+}

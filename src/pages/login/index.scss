@@ -1,0 +1,26 @@
+.login {
+  position: relative;
+  width: 100%;
+
+  .form {
+  }
+  .error-msg {
+    position: absolute;
+    left: 18px;
+    transform: translateY(10px);
+  }
+  .form-footer {
+    margin-top: 48px;
+    width: 100%;
+    
+    .submit-button {
+      margin: 0 auto;
+      width: 80%;
+      height: 48px;
+      text-align: center;
+      border-radius: 24pc;
+      color: #fff;
+      background: linear-gradient(to right, $gradual-pink, $gradual-blue);
+    }
+  }
+}
