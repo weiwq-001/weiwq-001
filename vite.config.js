@@ -20,8 +20,14 @@ export default defineConfig({
       interval: 100, // 轮询间隔时间
     },
     proxy: {
-      "/api": {
+      "/test": {
         target: "http://apis.juhe.cn", // 后端 API 服务的地址
+        changeOrigin: true, // 是否修改请求头中的 Origin 字段
+        secure: false, // 如果后端是 HTTPS，但证书不受信任时设置为 false
+        rewrite: (path) => path.replace(/^\/api/, ""), // 可选：重写路径，如果需要去掉 /api 前缀
+      },
+      "/api": {
+        target: "http://kkls.zaidaxue.com:9909", // 后端 API 服务的地址
         changeOrigin: true, // 是否修改请求头中的 Origin 字段
         secure: false, // 如果后端是 HTTPS，但证书不受信任时设置为 false
         rewrite: (path) => path.replace(/^\/api/, ""), // 可选：重写路径，如果需要去掉 /api 前缀

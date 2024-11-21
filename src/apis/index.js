@@ -10,4 +10,12 @@ export default {
       params,
     });
   },
+  fetchCode: ({ method = "get", data, params }) => {
+    return axios({
+      url: `${apiPrefix}/get/Status/info/List`,
+      method,
+      data,
+      params,
+    });
+  },
 };
