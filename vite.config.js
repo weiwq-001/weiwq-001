@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
+import pxToViewport from 'postcss-px-to-viewport-8-plugin';
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -52,6 +53,20 @@ export default defineConfig({
       scss: {
         additionalData: `$gradual-blue: #0057da;$gradual-pink: #f621b9;`,
       },
+    },
+    postcss: {
+      plugins: [
+        pxToViewport({
+          viewportWidth: 375, // 设计稿宽度
+          unitPrecision: 5,   // 转换后小数点位数
+          propList: ['*'],    // 需要转换的属性列表
+          viewportUnit: 'vw', // 转换单位
+          fontViewportUnit: 'vw', // 字体单位
+          selectorBlackList: ['ignore'], // 不转换的类名
+          minPixelValue: 1,   // 小于或等于 1px 不转换
+          mediaQuery: false,  // 是否转换媒体查询
+        }),
+      ],
     },
   },  
 });                       

@@ -1,12 +1,11 @@
 import React from "react";
-import { CalendarOutline } from "antd-mobile-icons";
 import "./index.scss";
 
 const MeetingItem = ({ title, time, index, total }) => {
   return (
     <div key={time} className="meeting-item">
       <div className="split">
-        <div className="icon"></div>
+        <div className="small-circle"></div>
         {/* 不展示虚线。case:最后一项   */}
         {index !== total - 1 && <div className="line" />}
       </div>
@@ -39,12 +38,7 @@ function MeetingNotes() {
   return (
     <div className="meetingNotes">
       <div className="container">
-        <div className="title">
-          <span className="icon">
-            <CalendarOutline />
-          </span>
-          <span className="text">参会须知</span>
-        </div>
+        <div className="title">参会须知</div>
         <div className="content">
           <div className="timeline">
             {meetingList?.map((item, index) => (

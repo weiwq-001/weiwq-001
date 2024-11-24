@@ -10,7 +10,6 @@ import DiningInfo from "../pages/diningInfo/index.jsx";
 import VenueGuide from "../pages/venueGuide/index.jsx";
 import WarmTips from "../pages/warmTips/index.jsx";
 import ServiceForYou from "../pages/serviceForYou/index.jsx";
-import InvitationLetter from "../pages/invitationLetter";
 
 const Router = [
   {
@@ -62,10 +61,6 @@ const Router = [
         element: <ServiceForYou />,
       },
     ],
-  },
-  {
-    path: "invitationLetter",
-    element: <InvitationLetter />,
   },
 ];
 

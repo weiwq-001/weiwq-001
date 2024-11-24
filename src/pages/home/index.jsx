@@ -1,16 +1,11 @@
 import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { useRequest } from "ahooks";
-import Api from "src/apis";
 import MENULIST from "../../constant/menu";
 import "./index.scss";
 
 export default function Home() {
   const navigate = useNavigate();
   const menu = useRef(MENULIST);
-  const { run, loading, data, error } = useRequest(() =>
-    Api.fetchCode({ method: "post" , data: { } })
-  );
 
   const jumpPage = (pageName) => {
     navigate(pageName); // 跳转到目标路径
@@ -18,14 +13,6 @@ export default function Home() {
 
   return (
     <div className="home">
-      <div className="long-btn">
-        <span>点击切换成人营养客户大会</span>
-        <span className="icon"></span>
-      </div>
-      <h1>
-        请求接口{JSON.stringify(data)}
-        {error?.message}
-      </h1>
       <div className="menu-list">
         {menu.current.map((item) => {
           return (
