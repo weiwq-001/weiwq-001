@@ -1,10 +1,13 @@
-import React from 'react'
+import React from 'react';
+import { Image } from "antd-mobile";
+import warmTipsImg from "src/assets/images/warmTips.png";
+import "./index.scss";
 
 export default function WarmTips() {
 
   return (
     <div className='warmTips'>
-     温馨提示
+      <Image src={warmTipsImg} />
     </div>
   )
 }

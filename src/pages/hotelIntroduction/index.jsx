@@ -30,15 +30,15 @@ function hotelIntroduction() {
     })
       .then((AMap) => {
         const map = new AMap.Map("map-container", {
-          center: [116.397428, 39.90923], // 北京天安门
+          center: [109.74,18.36], // 三亚·亚特兰蒂斯酒店
           zoom: 14,
         });
 
         // 添加标记
         new AMap.Marker({
-          position: [116.397428, 39.90923],
+          position: [109.74,18.36],
           map,
-          title: "天安门",
+          title: "三亚·亚特兰蒂斯酒店",
         });
       })
       .catch((e) => console.error(e));
