@@ -13,7 +13,7 @@ function SmsVerification(props) {
   return (
     <div className="phone">
       <div className="label">
-        <PhonebookOutline />
+        <PhonebookOutline color="#fff"/>
       </div>
       <div className="value">
         <Input

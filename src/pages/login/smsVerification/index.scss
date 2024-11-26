@@ -19,5 +19,10 @@
       margin-left: 16px;
       flex-shrink: 0;
     }
+    .disabled {
+      background-color: #f2f3f5;
+      color: #000;
+      border-color: #f2f3f5;
+    }
   }
 }

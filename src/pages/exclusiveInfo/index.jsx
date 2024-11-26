@@ -1,10 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { QRCodeCanvas } from "qrcode.react";
 import { UserOutline, UnorderedListOutline } from "antd-mobile-icons";
+import { SpinLoading } from "antd-mobile";
+import Api from "src/apis";
 import "./index.scss";
 
 export default function ExclusiveInfo() {
-  const [qrValue, setQrValue] = useState("0123");
+  const [userInfo, setUserInfo] = useState({});
+  const [qrValue, setQrValue] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const openId = localStorage.getItem("openId");
+
+    const fetchUserInfo = async () => {
+      try {
+        setLoading(true);
+        const result = await Api.getUserInfoByOpenId({
+          method: "GET",
+          params: {
+            openId: openId || "",
+          },
+        });
+
+        if (result.data.status === 200) {
+          setUserInfo(result.data?.data);
+          setQrValue(result.data?.data?.gateMachineId);
+        }
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        console.error("Error fetching user info:", error);
+      }
+    };
+
+    fetchUserInfo();
+  }, []);
 
   return (
     <div className="exclusiveInfo">
@@ -13,7 +44,13 @@ export default function ExclusiveInfo() {
         <div className="content">
           <div className="qr-code-view">
             <div id="QR-code" style={{ width: "120px", height: "120px" }}>
-              <QRCodeCanvas value={qrValue} size={120} />
+              {loading ? (
+                <SpinLoading color="primary" />
+              ) : !qrValue ? (
+                <span>请求失败</span>
+              ) : (
+                <QRCodeCanvas value={qrValue} size={120} />
+              )}
             </div>
             <div className="text">签到二维码，请妥善保存</div>
           </div>
@@ -25,7 +62,7 @@ export default function ExclusiveInfo() {
                 <span>姓名</span>
               </div>
               <div className="value">
-                <span>张三</span>
+                <span>{userInfo?.loginName || "-"}</span>
               </div>
             </div>
 
@@ -35,7 +72,7 @@ export default function ExclusiveInfo() {
                 <span>编号</span>
               </div>
               <div className="value">
-                <span>123456</span>
+                <span>{userInfo?.gateMachineId || "-"}</span>
               </div>
             </div>
           </div>

@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { Form, Button, Toast } from "antd-mobile";
-import { useRequest } from "ahooks";
 import { useNavigate } from "react-router-dom";
 import Api from "src/apis";
 import SmsVerification from "./smsVerification";
@@ -12,9 +12,7 @@ export default function Login() {
   const form = useRef(null);
   const toastRef = useRef();
   const [errorMsg, setErrorMsg] = useState();
-  const { run, loading, data, error } = useRequest(Api.test, {
-    manual: true,
-  });
+  const { openId } = useParams();
 
   const validatePhone = (phone) => {
     // 校验手机号
@@ -44,39 +42,118 @@ export default function Login() {
       return false;
     }
 
-    // 提交表单api
-    run({
-      method: "GET",
-      params: {
-        key: "9bf00a79af76b984e7edce54b24d30ba",
-      },
-    });
+    let result;
+    try {
+      // 发送验证码
+      result = await Api.login({
+        method: "GET",
+        params: {
+          phone: values.phone,
+          openId: openId || "aaazzzz",
+          verificationCode: values.verificationCode,
+        },
+      });
+
+      if (data.data.status === 200) {
+        // 存储openId
+        localStorage.setItem("openId", openId);
+        toastRef.current?.close();
+        navigate("/"); // 跳转到目标路径
+      } else {
+        setErrorMsg(result?.message);
+        toastRef.current = Toast.show({
+          content: result?.message,
+          duration: 1500,
+          position: "top",
+        });
+        throw new Error(result?.message);
+      }
+    } catch (error) {
+      setErrorMsg(error?.message);
+      toastRef.current = Toast.show({
+        content: error?.message,
+        duration: 1500,
+        position: "top",
+      });
+      throw new Error(error?.message);
+    }
   };
 
-  // 请求处理
+  const sendVerificationCodeFn = async () => {
+    // 获取表单数据
+    const values = form.current.getFieldsValue();
+
+    // 校验手机号
+    if (!validatePhone(values.phone)) {
+      throw new Error(errorMsg);
+    }
+
+    toastRef.current = Toast.show({
+      content: "loading...",
+      duration: 0,
+      position: "top",
+    });
+
+    let result;
+    try {
+      // 发送验证码
+      result = await Api.getVerificationCode({
+        method: "GET",
+        params: {
+          phone: values.phone,
+        },
+      });
+
+      if (false) {
+        toastRef.current?.close();
+        navigate("/"); // 跳转到目标路径
+      } else {
+        setErrorMsg(result?.message);
+        toastRef.current = Toast.show({
+          content: result?.message,
+          duration: 1500,
+          position: "top",
+        });
+        throw new Error(result?.message);
+      }
+    } catch (error) {
+      setErrorMsg(error?.message);
+      toastRef.current = Toast.show({
+        content: error?.message,
+        duration: 1500,
+        position: "top",
+      });
+      throw new Error(error?.message);
+    }
+  };
+
   useEffect(() => {
-    if (loading) {
-      toastRef.current = Toast.show({
-        content: "loading...",
-        duration: 0,
-        position: "top",
+    const validOpenId = async () => {
+      // 发送验证码
+      const result = await Api.validOpenId({
+        method: "GET",
+        params: {
+          openId: openId,
+        },
       });
-    } else {
-      toastRef.current?.close();
-    }
 
-    if (data) {
-      navigate('/'); // 跳转到目标路径
-    }
+      // 返回 true 表示验证通过
+      if (result?.data?.status === 200) {
+        if (result?.data?.data) {
+          const openId = result?.data?.data?.openId;
+          // 存储openId
+          localStorage.setItem("openId", openId);
+          navigate("/"); // 跳转到目标路径
+          return true;
+        }
+      } else {
+        const url = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx7ba069fa574a949e&redirect_uri=http://kkls.zaidaxue.com/api/wx/bindPhone&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
+        window.open(url, "_self");
+      }
+    };
 
-    if (error) {
-      toastRef.current = Toast.show({
-        content: error,
-        duration: 0,
-        position: "top",
-      });
-    }
-  }, [data, error, loading]);
+    validOpenId();
+  }, []);
 
   return (
     <div className="login">
@@ -84,25 +161,8 @@ export default function Login() {
         <Form.Item name="phone">
           <Phone />
         </Form.Item>
-        {/* <Form.Item
-          name="verificationCode"
-          label="短信验证码"
-          extra={
-            seconds60 === 0 ? (
-              <Button size="mini" color="primary" onClick={sendMessage}>
-                获取短信验证码
-              </Button>
-            ) : (
-              <Button size="mini" color="primary">
-                {seconds60}秒后重新发送
-              </Button>
-            )
-          }
-        >
-          <Input placeholder="请输入验证码" type="number" />
-        </Form.Item> */}
         <Form.Item name="verificationCode">
-          <SmsVerification />
+          <SmsVerification sendVerificationCodeFn={sendVerificationCodeFn} />
         </Form.Item>
       </Form>
       {Boolean(errorMsg) && <div className="error-msg">{errorMsg}</div>}

@@ -2,17 +2,33 @@ import axios from "axios";
 const apiPrefix = "/api";
 
 export default {
-  test: ({ method = "get", data, params }) => {
+  getVerificationCode: ({ method = "get", data, params }) => {
     return axios({
-      url: `${apiPrefix}/lottery/types`,
+      url: `${apiPrefix}/get/verification/code`,
       method,
       data,
       params,
     });
   },
-  fetchCode: ({ method = "get", data, params }) => {
+  login: ({ method = "get", data, params }) => {
     return axios({
-      url: `${apiPrefix}/get/Status/info/List`,
+      url: `${apiPrefix}/login`,
+      method,
+      data,
+      params,
+    });
+  },
+  getUserInfoByOpenId: ({ method = "get", data, params }) => {
+    return axios({
+      url: `${apiPrefix}/get/user/info/opendId`,
+      method,
+      data,
+      params,
+    });
+  },
+  validOpenId: ({ method = "get", data, params }) => {
+    return axios({
+      url: `${apiPrefix}/check/BindOpenId/again`,
       method,
       data,
       params,

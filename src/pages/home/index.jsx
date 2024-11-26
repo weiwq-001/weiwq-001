@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import MENULIST from "../../constant/menu";
 import "./index.scss";
@@ -10,6 +10,16 @@ export default function Home() {
   const jumpPage = (pageName) => {
     navigate(pageName); // 跳转到目标路径
   };
+
+  useEffect(() => {
+    const openId = localStorage.getItem("openId");
+
+    if(!openId){
+      navigate("/login");
+    }
+    
+  }, [])
+  
 
   return (
     <div className="home">
